@@ -2,8 +2,17 @@
   "name": "JN Originals",
   "legalName": "JN ORIGINALS LTDA",
   "cnpj": "49.009.219/0001-40",
-  "address": null,
-  "hours": null,
+  "address": {
+    "street": "Rua Pasquale Gallupi, 1280",
+    "district": "Paraisópolis",
+    "city": "São Paulo",
+    "state": "SP",
+    "source": "bio do Instagram @jnoriginals01 (print enviado pelo Miguel em 2026-11-12)"
+  },
+  "hours": {
+    "text": "Segunda a sábado, das 9h às 20h",
+    "source": "bio do Instagram @jnoriginals01 (print enviado pelo Miguel em 2026-11-12)"
+  },
   "phone": "(11) 98427-6643",
   "email": "Jadielsanttoss14@gmail.com",
   "whatsapp": {
@@ -16,7 +25,9 @@
     "note": "Rodapé da origem lista (11) 98427-6643 como WhatsApp. Os outros dois aparecem em botões flutuantes/links da home."
   },
   "social": {
-    "instagram": "https://www.instagram.com/jnoriginals/"
+    "instagram": "https://www.instagram.com/jnoriginals01/",
+    "instagramHandle": "@jnoriginals01",
+    "note": "O rodapé do site antigo aponta para instagram.com/jnoriginals/; o perfil verificado é @jnoriginals01."
   },
   "menuCategories": [
     "Acessórios",
@@ -31,5 +42,6 @@
     "Vestuário feminino",
     "Vestuário infantil"
   ],
-  "source": "https://www.jnoriginalsshop.com.br/ (rodapé e links da home, coletado em 2026-11-12)"
+  "source": "https://www.jnoriginalsshop.com.br/ (rodapé e links da home, coletado em 2026-11-12)",
+  "physicalStore": true
 }

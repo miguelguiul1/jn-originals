@@ -41,32 +41,32 @@ export function CartDrawer() {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50">
-      <div className="scrim absolute inset-0 bg-ink/40" onClick={() => setOpen(false)} aria-hidden="true" />
+      <div className="scrim absolute inset-0 bg-asfalto/70" onClick={() => setOpen(false)} aria-hidden="true" />
       <div
         ref={ref}
         role="dialog"
         aria-modal="true"
         aria-labelledby="cart-title"
-        className="drawer absolute right-0 top-0 flex h-full w-full max-w-[420px] flex-col rounded-l-m bg-paper shadow-pop"
+        className="drawer absolute right-0 top-0 flex h-full w-full max-w-[420px] flex-col border-l border-linha bg-muro"
       >
-        <div className="flex items-center justify-between border-b border-line p-4">
-          <h2 id="cart-title" className="text-xl">Sacola</h2>
-          <button type="button" onClick={() => setOpen(false)} className="min-h-11 px-2 text-sm underline underline-offset-4">Fechar</button>
+        <div className="flex items-center justify-between border-b border-linha p-4">
+          <h2 id="cart-title" className="display text-4xl">Sacola</h2>
+          <button type="button" onClick={() => setOpen(false)} className="label min-h-11 px-2 underline underline-offset-4">Fechar</button>
         </div>
         <div className="flex-1 overflow-y-auto p-4">
           {lines.length ? (
             <CartLines compact />
           ) : (
-            <p className="m-0 text-muted">
+            <p className="m-0 text-cinza">
               Sua sacola está vazia.{" "}
-              <Link to="/loja" className="link text-ink" onClick={() => setOpen(false)}>Ver a loja</Link>
+              <Link to="/loja" className="link text-giz" onClick={() => setOpen(false)}>Ver a loja</Link>
             </p>
           )}
         </div>
         {lines.length > 0 && (
-          <div className="border-t border-line p-4">
-            <div className="mb-3 flex justify-between"><span>Total</span><b className="num">{money(subtotal)}</b></div>
-            <Link to="/sacola" onClick={() => setOpen(false)} className="btn btn-primary w-full">Ver sacola e finalizar</Link>
+          <div className="border-t border-linha p-4">
+            <div className="mb-3 flex items-baseline justify-between"><span className="label">Total</span><b className="display-m num text-3xl">{money(subtotal)}</b></div>
+            <Link to="/sacola" onClick={() => setOpen(false)} className="btn btn-buy w-full">Ver sacola e finalizar</Link>
           </div>
         )}
       </div>

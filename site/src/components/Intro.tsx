@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { Logo } from "./Logo";
 
 const KEY = "jn-intro";
 
@@ -44,7 +45,7 @@ export function Intro() {
     const prev = html.style.overflow;
     html.style.overflow = "hidden";
     skipRef.current?.focus({ preventScroll: true });
-    const t = window.setTimeout(end, 1600);
+    const t = window.setTimeout(end, 1660);
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && skip();
     window.addEventListener("keydown", onKey);
     return () => {
@@ -64,24 +65,17 @@ export function Intro() {
     <div
       role="presentation"
       onClick={skip}
-      className="ink-surface fixed inset-0 z-[100] grid place-items-center bg-ink text-paper"
+      className="fixed inset-0 z-[100] grid place-items-center bg-asfalto text-giz"
       style={{
-        animation: "intro-out 480ms var(--ease-io) 1120ms both",
+        animation: "intro-up 400ms var(--ease-out) 1250ms both",
         opacity: leaving ? 0 : 1,
         transition: "opacity 180ms var(--ease-out)",
       }}
     >
-      <div aria-hidden="true" className="px-4 text-center">
-        <div
-          className="font-display text-[clamp(3rem,12vw,7rem)] italic leading-none"
-          style={{ fontWeight: 700, animation: "intro-logo 500ms var(--ease-out) both" }}
-        >
-          JN Originals
-        </div>
-        <div
-          className="mx-auto mt-4 h-[3px] w-full origin-left bg-signal"
-          style={{ animation: "intro-bar 600ms var(--ease-io) 300ms both" }}
-        />
+      {/* Duas camadas do mesmo logo: letras (esquerda para direita) e escorridos (de cima para baixo). */}
+      <div aria-hidden="true" className="relative w-[min(60vw,36vh,22rem)]">
+        <Logo label={false} className="text-giz" style={{ animation: "spray-x 700ms var(--ease-out) both" }} />
+        <Logo label={false} className="absolute inset-0 text-giz" style={{ animation: "spray-y 400ms var(--ease-out) 700ms both" }} />
       </div>
       <button
         ref={skipRef}
@@ -90,7 +84,7 @@ export function Intro() {
           e.stopPropagation();
           skip();
         }}
-        className="absolute bottom-4 right-4 min-h-11 px-3 text-sm text-paper underline underline-offset-4"
+        className="label absolute bottom-4 right-4 min-h-11 px-3 text-giz underline underline-offset-4"
       >
         Pular
       </button>

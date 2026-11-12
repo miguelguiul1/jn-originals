@@ -12,6 +12,7 @@ export interface Product {
   rawName: string; // nome como está no catálogo
   brand: string;
   category: string;
+  group: string;
   subcategory: string | null;
   code: string;
   price: number;
@@ -32,6 +33,7 @@ export interface Packed {
   n: string;
   b: string;
   c: string;
+  g?: string;
   k: string;
   p: number;
   m: [number, number, number, number[]][];
@@ -64,6 +66,7 @@ export function unpack(p: Packed): Product {
     rawName: p.n,
     brand: p.b ?? "",
     category: p.c,
+    group: p.g ?? p.c,
     subcategory: p.sc ?? null,
     code: p.k,
     price: p.p,

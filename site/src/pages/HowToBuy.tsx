@@ -19,38 +19,38 @@ function toBlocks(v: unknown): Block[] {
 const policies = toBlocks(Object.values(found)[0]).filter((b) => b.body.trim());
 
 const steps = [
-  ["Escolha o produto.", "Na página do produto, veja as fotos, o preço e o código. Se houver tamanhos listados, selecione um."],
-  ["Adicione à sacola.", "Você pode juntar vários itens. A sacola fica salva neste aparelho."],
-  ["Finalize e envie.", "Informe seu nome. O pedido vira uma mensagem pronta no WhatsApp, com itens e total."],
-  ["Combine com a equipe.", "A loja confirma tamanhos e disponibilidade e combina pagamento e entrega pela conversa."],
+  ["Escolha o produto.", "Na loja, filtre por categoria, marca ou tamanho. Abra o produto para ver fotos, preço e código."],
+  ["Escolha o tamanho.", "Quando o produto tem tamanhos listados, o tamanho é obrigatório. Sem lista, a equipe confirma pelo WhatsApp."],
+  ["Monte a sacola.", "Junte vários itens. A sacola fica salva neste aparelho."],
+  ["Envie pelo WhatsApp.", "Informe seu nome. O pedido vira uma mensagem pronta, com itens e total. A equipe confirma estoque, pagamento e entrega."],
 ];
 
 export default function HowToBuy() {
   usePageTitle("Como comprar");
   return (
-    <div className="wrap py-8">
-      <h1 className="text-2xl">Como comprar</h1>
-      <ol className="m-0 mt-8 max-w-[60ch] list-none space-y-8 p-0">
+    <div className="wrap pt-8 md:pt-12">
+      <h1 className="display t-hero">Como comprar</h1>
+      <ol className="m-0 mt-10 grid list-none gap-x-12 gap-y-10 p-0 md:grid-cols-2">
         {steps.map(([t, d], i) => (
-          <li key={t} className="grid grid-cols-[2.5rem_1fr] gap-2">
-            <span className="font-display text-xl text-muted" aria-hidden="true">{i + 1}</span>
-            <div>
-              <h2 className="text-lg">{t}</h2>
-              <p className="m-0 mt-1">{d}</p>
+          <li key={t} className="grid grid-cols-[auto_1fr] items-start gap-x-5 border-t border-linha pt-4">
+            <span className="display text-[clamp(5rem,3rem+8vw,9rem)] text-amarelo" aria-hidden="true">{i + 1}</span>
+            <div className="pt-2">
+              <h2 className="display text-3xl">{t}</h2>
+              <p className="m-0 mt-2 text-cinza">{d}</p>
             </div>
           </li>
         ))}
       </ol>
-      <p className="mt-8 max-w-[60ch]">
+      <p className="mt-10 max-w-[60ch]">
         Prefere falar antes? Chame no <a className="link" href={waUrl()}>WhatsApp {STORE.whatsapp.primaryLabel}</a> ou veja a <Link className="link" to="/loja">loja</Link>.
       </p>
       {policies.length > 0 && (
-        <section className="mt-16 max-w-[60ch]" aria-labelledby="pol">
-          <h2 id="pol" className="text-xl">Trocas e políticas</h2>
+        <section className="mt-20 max-w-[70ch]" aria-labelledby="pol">
+          <h2 id="pol" className="display t-section">Trocas e políticas</h2>
           {policies.map((b, i) => (
-            <div key={i} className="mt-4">
-              {b.title && <h3 className="text-lg">{b.title}</h3>}
-              <p className="m-0 mt-1 whitespace-pre-line">{b.body}</p>
+            <div key={i} className="mt-8">
+              {b.title && <h3 className="display text-3xl">{b.title}</h3>}
+              <p className="m-0 mt-2 whitespace-pre-line">{b.body}</p>
             </div>
           ))}
         </section>

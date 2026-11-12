@@ -18,6 +18,29 @@ const images = read("images.json");
 const store = read("store.json");
 const imgDir = resolve(root, "public/img/p");
 
+// Grupos de navegação: vence a palavra que aparece primeiro no nome; sem palavra, vale a categoria original.
+const GROUPS = [
+  { slug: "tenis", label: "Tênis", re: /\bTENIS\b/ },
+  { slug: "jaquetas", label: "Jaquetas e blusões", re: /\b(?:JAQUETAS?|BLUSAO|BLUSOES|MOLETOM|MOLETONS?|CORTA|SUETER|SUETERES)\b/ },
+  { slug: "camisetas", label: "Camisetas e polos", re: /\b(?:CAMISETAS?|POLOS?|CAMISAS?)\b/ },
+  { slug: "calcas", label: "Calças e bermudas", re: /\b(?:CALCAS?|BERMUDAS?|SHORTS?)\b/ },
+  { slug: "conjuntos", label: "Conjuntos", re: /\b(?:CONJUNTOS?|TRACKSUITS?)\b/ },
+  { slug: "bones", label: "Bonés e acessórios", re: /\b(?:BONES?|BON|MEIAS?|MOCHILAS?|BAGS?|CHINELOS?)\b/ },
+];
+const slugify = (s) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+function groupOf(p) {
+  const n = p.name.normalize("NFD").replace(/\p{M}/gu, "").toUpperCase();
+  let best = null;
+  for (const g of GROUPS) {
+    const m = g.re.exec(n);
+    if (m && (!best || m.index < best.at)) best = { g, at: m.index };
+  }
+  if (best) return best.g.label;
+  const byCat = { "Calçados": "Tênis", "Tracksuit (conjunto)": "Conjuntos", Tracksuit: "Conjuntos", "Acessórios": "Bonés e acessórios", "Calça e bermuda jeans": "Calças e bermudas", "Camiseta e polo": "Camisetas e polos" };
+  if (byCat[p.category]) return byCat[p.category];
+  return p.category || "Outros";
+}
+
 // Formato compacto: só o que o site usa. Imagens: manifesto + arquivos que existem de fato.
 function pack(p) {
   const m = (images[p.slug] || [])
@@ -27,7 +50,7 @@ function pack(p) {
     })
     .filter(Boolean);
   const x = p.sizeStock ? Object.keys(p.sizeStock).filter((k) => p.sizeStock[k] === false) : [];
-  const o = { s: p.slug, n: p.name, b: p.brand || "", c: p.category || "Outros", k: p.code || "", p: p.price, m };
+  const o = { s: p.slug, n: p.name, b: p.brand || "", c: p.category || "Outros", g: groupOf(p), k: p.code || "", p: p.price, m };
   if (p.subcategory) o.sc = p.subcategory;
   if (p.oldPrice) o.o = p.oldPrice;
   if (p.installment) {
@@ -54,13 +77,21 @@ const rank = (a, b) =>
     Number(b.id) - Number(a.id) ||
     a.slug.localeCompare(b.slug);
 const sorted = [...pool0].sort(rank);
-const vitrine = sorted.slice(0, 5);
-const trilha = sorted.filter((p) => p.category === "Calçados" && !vitrine.includes(p)).slice(0, 7);
-const ranked = [...vitrine, ...trilha];
+const ranked = sorted.slice(0, 5);
+// Mosaico: contagem real por grupo e o produto mais recente (maior id) com foto, preferindo estoque.
+const gcount = new Map();
+for (const p of catalog) gcount.set(groupOf(p), (gcount.get(groupOf(p)) || 0) + 1);
+const byNew = [...pool0].sort((a, b) => Number(b.inStock === true) - Number(a.inStock === true) || Number(b.id) - Number(a.id));
+const mosaic = GROUPS.map((g) => {
+  const lead = byNew.find((p) => groupOf(p) === g.label);
+  return { slug: g.slug, label: g.label, count: gcount.get(g.label) || 0, product: lead ? pack(lead) : null };
+});
+const groups = [...gcount].map(([label, count]) => ({ slug: GROUPS.find((g) => g.label === label)?.slug ?? slugify(label), label, count }));
 const counts = new Map();
 for (const p of catalog) for (const c of p.categories?.length ? p.categories : [p.category]) counts.set(c, (counts.get(c) || 0) + 1);
 const categories = [...counts].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
-out("src/data/featured.json", JSON.stringify({ total: catalog.length, products: ranked.slice(0, 12).map(pack), categories }));
+out("src/data/featured.json", JSON.stringify({ total: catalog.length, products: ranked.map(pack), categories, mosaic }));
+out("src/data/groups.json", JSON.stringify(groups.sort((a, b) => b.count - a.count)));
 out("src/data/store.json", JSON.stringify(store, null, 2));
 
 const routes = ["/", "/loja", "/como-comprar", "/a-loja"];

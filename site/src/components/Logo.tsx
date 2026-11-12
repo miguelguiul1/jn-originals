@@ -1,9 +1,15 @@
-import { Link } from "react-router-dom";
+import type { CSSProperties } from "react";
+import fullSvg from "../../public/img/brand/logo-jn.svg?raw";
+import markSvg from "../../public/img/brand/mark-jn.svg?raw";
 
-export function Logo() {
+/** Logo inline: herda currentColor. Nunca reescrito em fonte. */
+export function Logo({ variant = "full", className = "", label = true, style }: { variant?: "full" | "mark"; className?: string; label?: boolean; style?: CSSProperties }) {
   return (
-    <Link to="/" aria-label="JN Originals, início" className="font-display text-xl italic leading-none text-ink no-underline" style={{ fontWeight: 700 }}>
-      JN Originals
-    </Link>
+    <span
+      style={style}
+      className={`logo block ${className}`}
+      {...(label ? { role: "img", "aria-label": "JN Originals" } : { "aria-hidden": true })}
+      dangerouslySetInnerHTML={{ __html: variant === "full" ? fullSvg : markSvg }}
+    />
   );
 }

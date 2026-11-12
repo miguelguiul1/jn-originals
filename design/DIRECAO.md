@@ -1,68 +1,65 @@
-# JN Originals: direção visual (slim)
+# JN Originals: direção visual v2 (loja de rua, Paraisópolis)
+
+A v1 (bege, "slim") foi rejeitada pelo Miguel: genérica, sem personalidade. A v2 parte do que a marca já é:
+logo de pichação com escorrido, loja física em Paraisópolis (Rua Pasquale Gallupi, 1280), 198 mil seguidores no
+Instagram, feed com looks montados no chão, galera na rua e muro de concreto, banners pretos com amarelo.
 
 ## 1. Princípios
-- Calma e precisão: a foto e o preço mandam; o resto some.
-- Um único destaque (vermelho), usado só em ação e estado (Comprar, desconto, foco). Nunca em decoração.
-- Títulos em peso 500, caixa de frase, escala contida. Sem caixa-alta em rótulos, sem numeração decorativa.
-- Densidade no catálogo, respiro fora dele. Toda foto vive numa moldura neutra uniforme.
-- Movimento só quando responde a um gesto, exceto a abertura (único momento teatral).
+- A marca é rua: fundo preto, foto de gente de verdade, a tag "JN" como assinatura. Nada de boutique.
+- Grita só onde vende: amarelo (único destaque) em compra, preço promocional, faixa de informação e foco.
+- Contraste alto e tipografia pesada condensada em caixa alta nos títulos; corpo limpo e legível.
+- Prova de loja real em toda página: endereço, horário, WhatsApp. É o que separa a JN de golpe de "original".
+- O escorrido do logo é o único ornamento da marca. Usar com parcimônia (logo, intro, divisor do hero). Nada além.
 
 ## 2. Tokens
-**Cor** (4 neutras + 1 destaque; contraste WCAG calculado)
-| token | hex | uso | contraste |
-|---|---|---|---|
-| `--paper` | `#F6F5F2` | fundo da página | tinta 16,76:1 |
-| `--frame` | `#EBE9E3` | moldura atrás das fotos, superfícies | tinta 15,05:1 |
-| `--ink` | `#151514` | texto, botão primário, intro | sobre paper 16,76:1 |
-| `--muted` | `#5C5A53` | texto secundário, preço antigo | paper 6,33:1; frame 5,69:1 |
-| `--line` | `#D6D3CA` | divisores (decorativo, sem texto) | 1,37:1, ok |
-| `--signal` | `#BC2C16` | CTA, desconto, foco | paper 5,49:1; frame 4,93:1; texto paper sobre signal 5,49:1 |
-Bordas de campos de formulário e controles: `#8C897F` (3,21:1 sobre paper, mínimo 3:1 para componentes). Foco: anel 2px `--signal`, offset 3px. Texto da intro: paper sobre ink 16,76:1. Proibido texto `--signal` sobre fundos mais escuros que `--frame`.
+Cor (tema único escuro; contraste WCAG medido):
+| token | hex | uso |
+|---|---|---|
+| `--asfalto` | `#0B0B0A` | fundo da página |
+| `--muro` | `#171716` | superfícies (filtros, gaveta, cabeçalho rolado) |
+| `--linha` | `#2E2D2A` | divisores (sem texto) |
+| `--giz` | `#F3F1EC` | texto principal (18,0:1 sobre asfalto) e moldura das fotos de produto |
+| `--cinza` | `#A6A39B` | texto secundário (8,0:1 sobre asfalto; 7,2:1 sobre muro) |
+| `--amarelo` | `#FFD21F` | destaque único: botão de compra (texto asfalto 14,6:1), faixa, preço em promoção, foco |
+Bordas de campos: `#6E6B64` (3,5:1). Texto sobre a moldura `--giz` sempre em `--asfalto`.
 
-**Tipografia** (self-hosted via fontsource, só variáveis, 2 famílias, 2 pesos cada)
-- Display: `@fontsource-variable/big-shoulders-display` (mantida: é a assinatura condensada da marca). Pesos 500 e 700 (700 só no logotipo/intro). Caixa de frase, `letter-spacing: 0`, `line-height: 1.05`.
-- Texto/UI: `@fontsource-variable/hanken-grotesk`. Pesos 400 e 600. Sem fonte mono: dados técnicos (tamanho, SKU, preço) usam `font-variant-numeric: tabular-nums` em Hanken.
-- Escala (rem, base 16 px; display fluido com clamp): `--t-xs .75` (rótulo mínimo 12 px) / `--t-sm .875` / `--t-md 1` / `--t-lg 1.25` / `--t-xl 1.75` / `--t-2xl clamp(2rem, 1.4rem + 2.4vw, 3.25rem)` (máximo da home). Corpo 1rem/1.55; linha ≤ 68 caracteres.
+Tipografia (fontsource, subset latin, `font-display: swap`):
+- Display: `@fontsource-variable/archivo` com `font-stretch: 62%` (condensado), peso 800, CAIXA ALTA, `letter-spacing: -0.01em`, `line-height: .9`. Só títulos, preço grande e faixa. Pesos usados: 800 e 500.
+- Texto/UI: `@fontsource-variable/hanken-grotesk` 400 e 600. Números com `tabular-nums`.
+- Escala: rótulo `.75rem` (caixa alta, `letter-spacing: .08em`, Hanken 600) / `.875` / `1` / `1.25` / título de seção `clamp(2.25rem, 1.4rem + 4vw, 4.5rem)` / hero `clamp(3.25rem, 1.6rem + 8vw, 9rem)`.
+- Remover Big Shoulders.
 
-**Espaço** base 4 px: `4 8 12 16 24 32 48 80 128` px (`--s-1`..`--s-9`). Gutter 16 px (mobile), 32 px (≥ 1024). Largura máx. 1360 px.
-**Raios:** `--r-s 2px` (campos, botões, cards), `--r-m 6px` (gavetas, popovers). Nada de pílulas, nada maior que 6 px.
-**Sombra:** nenhuma em repouso; só gaveta/popover: `0 8px 24px rgb(21 21 20 / .12)`.
-**Movimento:** `--ease-out: cubic-bezier(.22,.61,.36,1)`, `--ease-io: cubic-bezier(.65,0,.35,1)`. Durações: micro 120 ms (hover, press), padrão 220 ms (gaveta, filtro), saída da intro 480 ms. Sem animação de entrada por seção, sem hover que mexa no layout. `prefers-reduced-motion`: tudo vira fade ≤ 100 ms ou some.
+Espaço base 4 px (4 8 12 16 24 32 48 72 112). Gutter 16 px mobile, 32 px ≥ 1024. Largura máx. 1440 px.
+Raio: 0 em tudo (corte seco, como lambe-lambe); 4 px só em chip de filtro e campo. Sombra: nenhuma.
+Movimento: `cubic-bezier(.2,.7,.2,1)`; 140 ms hover, 240 ms gaveta. Hover de card: foto escala 1.03 dentro da moldura.
 
-## 3. Composição por página
-- **Início (5 seções):** (1) cabeçalho + faixa de uma linha com "12x no cartão · Pedido pelo WhatsApp" (só se confirmado); (2) vitrine assimétrica: 1 destaque grande + 4 produtos recentes; (3) categorias como lista tipográfica de texto, com contagem real; (4) trilha horizontal "Tênis" com cards; (5) rodapé com CNPJ 49.009.219/0001-40, endereço e WhatsApp. Sem hero centralizado, sem trio de cards.
-- **Loja:** barra de filtros fixa à esquerda (desktop) / gaveta (mobile); grade densa 2 col (mobile), 3 (≥ 768), 4 (≥ 1100), 5 (≥ 1440); ordenar e busca no topo; paginar por "Ver mais" com contagem "48 de 312". Filtros: categoria, marca, tamanho, preço.
-- **Produto:** galeria à esquerda (miniaturas em coluna, foto na moldura), coluna fixa à direita: nome, preço, parcelas (12x), tamanho, "Adicionar à sacola"; abaixo: detalhes só com dados existentes; fim: itens da mesma categoria.
-- **Sacola:** lista em linhas (foto 72 px, nome, tamanho, quantidade, remover) + resumo fixo à direita com total e botão; vazia vira convite com link para a Loja.
-- **Finalizar:** uma coluna estreita (≤ 560 px): nome, entrega, resumo do pedido, botão "Enviar pedido no WhatsApp". Sem cabeçalho de loja, sem distrações.
-- **Como comprar:** passos reais numerados (aqui a numeração é sequência verdadeira), texto em coluna de 60 ch, ilustrado só por tipografia.
-- **A loja:** texto editorial em duas colunas assimétricas (texto + dados da empresa: CNPJ, cidade); foto da loja só se houver.
-- **404:** frase curta, busca e as 4 categorias maiores; fundo paper, sem ilustração.
+## 3. Ativos (já em `site/public/img/brand/`)
+- `logo-jn.svg` (tag completa "JN + ORIGINALS" com escorrido, `fill=currentColor`) e `mark-jn.svg` (só "JN"). Use inline (`<svg>` via import `?raw` ou componente) para herdar cor; nunca reescreva o logo em fonte.
+- Hero: `hero-rua-{1920,1280,960}.webp` (largo, 1920x830: três caras de Nike/Lacoste na rua) e `hero-rua-tall-{720,480}.webp` (retrato, para mobile via `<picture>`/`media`).
+- Campanha Puma Motorsport (dentro da loja física): `motorsport-{1600,960}.webp` e `motorsport-tall-{720,480}.webp`. Leva para `/loja?q=puma` filtrando BMW/Mercedes (59 produtos têm BMW/Mercedes/Ferrari/Red Bull no nome: use busca "puma").
 
-## 4. Componentes-chave
-- **Card de produto:** proporção 1:1, moldura `--frame` com `object-fit: contain`, padding interno 8% (fotos brancas e de WhatsApp ficam uniformes; `mix-blend-mode: multiply` na foto sobre a moldura para fundir branco). Abaixo: marca (xs, muted), nome (sm, 600, 2 linhas máx.), preço (md, tabular) e "12x R$ x" (xs, muted). Selo de desconto só se houver preço antigo (`--signal`, texto paper). Hover: o fundo da moldura vai a `#E4E1DA` em 120 ms; sem zoom.
-- **Imagens:** `srcset` 320/480/720/1080 px (nunca 2500), `loading=lazy` exceto as 4 primeiras, `width/height` fixos para evitar CLS.
-- **Filtros:** grupos recolhíveis, chips de seleção com contagem; filtros ativos viram linha removível acima da grade. Alvo de toque ≥ 44 px.
-- **Galeria:** foto principal na moldura, miniaturas 56 px, setas por teclado, zoom por toque só se resolução ≥ 1200 px.
-- **Sacola:** gaveta lateral 420 px (r-m); contador no cabeçalho em texto, sem badge colorido.
-- **Botões:** primário `--ink` com texto paper (altura 48 px, r-s); CTA de compra `--signal`; secundário com borda `#8C897F`. Sem setas decorativas nem ícones de biblioteca.
+## 4. Composição
+- **Cabeçalho:** preto, `mark-jn.svg` branco 34 px à esquerda; navegação em rótulo caixa alta (Loja, Tênis, Roupas, Bonés, Como comprar, A loja); busca com ícone desenhado em CSS ou texto "Buscar"; "Sacola" com contador em quadrado amarelo. Fixo no topo, fundo `--muro` após rolar.
+- **Início (6 seções):**
+  1. Hero tela cheia (≥ 88svh mobile, 78vh desktop): foto da rua, degradê preto só de baixo para legibilidade (é escurecimento de foto, não enfeite), `logo-jn.svg` grande em giz alinhado à esquerda embaixo, linha "Apenas produtos originais." e UM botão amarelo "Ver a loja". Ao lado do botão, texto pequeno: "Loja física em Paraisópolis · seg a sáb, 9h às 20h".
+  2. Faixa amarela correndo (marquee CSS, pausa no hover, estática com reduced-motion), texto preto em display: APENAS PRODUTOS ORIGINAIS · LOJA FÍSICA EM PARAISÓPOLIS · ATÉ 12X NO CARTÃO · MOTOBOY EM SP · ENVIO PARA TODO O BRASIL · PEDIDO PELO WHATSAPP.
+  3. "Chegou agora": grade assimétrica (1 card grande 2x2 + 4 normais no desktop; carrossel com scroll-snap no mobile), título de seção à esquerda, link "Ver tudo" à direita.
+  4. "Por categoria": mosaico de 6 blocos com foto do produto mais recente da categoria (Tênis, Jaquetas e blusões, Camisetas e polos, Calças e bermudas, Conjuntos/Tracksuit, Bonés e acessórios), nome em display giz sobre faixa preta na base do bloco, contagem real de itens. Alturas alternadas (não grade idêntica).
+  5. Campanha Motorsport: foto larga sangrada, título "Linha Puma Motorsport" em display, 1 botão "Ver a linha".
+  6. "A loja": bloco preto com endereço grande em display (RUA PASQUALE GALLUPI, 1280 / PARAISÓPOLIS · SP), horário, botão "Chamar no WhatsApp" (amarelo) e link "Como chegar" (Google Maps com a busca do endereço). `mark-jn.svg` enorme em `--linha` como marca d'água à direita.
+- **Loja:** título "LOJA" display gigante + contagem; filtros em painel `--muro` (desktop à esquerda, mobile gaveta); chips de categoria rolando no topo do mobile; grade 2/3/4/4 colunas; cards com moldura giz.
+- **Produto:** galeria grande na moldura giz (miniaturas abaixo no mobile, ao lado no desktop); nome em display; preço grande giz (promoção em amarelo com antigo riscado); parcela; tamanhos como quadrados (indisponível riscado); botão amarelo largo "Adicionar à sacola" + secundário com borda "Pedir pelo WhatsApp"; bloco "Retire na loja ou receba por motoboy/Correios" com endereço; "Mais da marca" em carrossel.
+- **Sacola / Finalizar:** fundo muro, linhas com foto pequena na moldura giz; resumo com total em display; botão amarelo.
+- **Como comprar:** 4 passos reais numerados em display gigante (escolha, tamanho, sacola, WhatsApp); depois políticas literais.
+- **A loja:** foto motorsport (interior da loja), endereço, horário, CNPJ, WhatsApp, Instagram @jnoriginals01, link de mapa.
+- **404:** "PERDEU O CAMINHO?" em display, busca e categorias.
+- **Rodapé:** `logo-jn.svg` grande, endereço, horário, CNPJ, links, Instagram @jnoriginals01.
 
-## 5. Abertura (intro)
-- Overlay `position: fixed; inset: 0` em `--ink`, `z-index` acima de tudo, **sobre o conteúdo já renderizado** (a home monta e pinta normalmente; LCP não espera a intro e a intro não tem imagem).
-- Conteúdo: só o logotipo "JN Originals" (itálico, Big Shoulders 700, paper) centralizado, com a faixa fina `--signal` crescendo sob ele. Sem contador, sem foto.
-- Linha do tempo (total 1,6 s, teto 1,8 s): 0 a 500 ms logotipo sobe 12 px e entra (`--ease-out`); 300 a 900 ms faixa `scaleX` 0 a 1; 900 a 1120 ms pausa; 1120 a 1600 ms overlay sai com `clip-path: inset(0 0 100% 0)` (`--ease-io`), revelando a loja. Só `transform`/`clip-path`/`opacity`.
-- **Pular:** botão de texto "Pular" canto inferior direito, foco visível, também por Esc e clique/toque em qualquer ponto; encerra em ≤ 200 ms.
-- **1x por sessão:** `sessionStorage['jn-intro']='1'` ao iniciar; ler/gravar dentro de `try/catch` (se falhar, não exibe). Não mostrar em rotas diferentes de `/` (link direto a produto não vê intro).
-- **`prefers-reduced-motion: reduce`:** intro não é montada.
-- Acessibilidade: `role="presentation"`, `aria-hidden="true"` no overlay, conteúdo atrás recebe `inert` só enquanto visível; scroll bloqueado apenas durante os 1,6 s; sem JS, a intro não existe.
+## 5. Card de produto
+Moldura `--giz` 1:1 com a foto `contain` (fotos de origem são heterogêneas; a moldura clara unifica e lembra lambe-lambe no muro preto). Abaixo, em giz: marca em rótulo caixa alta cinza, nome em Hanken 600 (2 linhas máx.), preço em display 500. Selo "−13%" em amarelo no canto da moldura; "ESGOTADO" em faixa preta sobre a moldura.
 
-## 6. Proibições aplicáveis (PROMPT.md, seção 5)
-- Sem gradientes, glassmorphism, brilhos, blobs, sombras difusas, `rounded-2xl`: raios 2/6 px, sombra só em gaveta.
-- Sem hero centralizado com dois botões, sem trio de cards com ícone, sem "por que nos escolher".
-- Sem emojis, ícones decorativos, contadores falsos, depoimentos; nenhuma cópia com "descubra", "eleve seu estilo", "experiência única".
-- Sem Inter/Roboto/Poppins/Space Grotesk; máx. 2 pesos por família; 1 só cor de destaque.
-- Grade de produtos varia de ritmo (vitrine assimétrica, trilha, grade densa) e cada página tem estrutura própria; home ≤ 6 seções.
-- Dado ausente (preço, tamanho, política, foto) fica `null`: a tela omite o campo e entra em `PENDENCIAS.md`. Nada inventado.
+## 6. Abertura (intro)
+Overlay preto sobre a home já pintada. `logo-jn.svg` em giz aparece como spray: máscara revelando da esquerda para a direita (0–700 ms), depois os escorridos "descem" (clip-path vertical, 700–1100 ms), pausa, overlay sobe (1250–1650 ms). Total ≤ 1,7 s. "Pular", Esc e toque encerram. 1x por sessão (sessionStorage com try/catch), só em `/`, não monta com `prefers-reduced-motion`.
 
-## Mudanças em relação ao protótipo
-Fundo `#EFEBE4` para `#F6F5F2` + moldura `#EBE9E3`; vermelho `#E4452B` (3,41:1 sobre o paper antigo, reprovava AA em texto) para `#BC2C16`; display de peso 900 caixa-alta para 500 caixa de frase; mono removida; intro de 2,4 s com contador para 1,6 s só com logotipo.
+## 7. Continua proibido
+Gradiente decorativo, glassmorphism, blobs, brilho, sombra difusa, cantos arredondados grandes, emojis, ícones de biblioteca como enfeite, contador falso, depoimento inventado, "descubra/eleve seu estilo/experiência única", trio de cards com ícone, Inter/Roboto/Poppins/Space Grotesk, mais de 1 cor de destaque, dado inventado.

@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import data from "../data/featured.json";
 import { usePageTitle } from "../lib/meta";
+import { GROUPS } from "../lib/groups";
 
 export default function NotFound() {
   usePageTitle("Página não encontrada");
@@ -11,20 +11,19 @@ export default function NotFound() {
     e.preventDefault();
     nav(`/loja?q=${encodeURIComponent(q.trim())}`);
   };
-  const cats = (data.categories as { name: string; count: number }[]).slice(0, 4);
   return (
-    <div className="wrap py-20">
-      <h1 className="text-2xl">Essa página não existe.</h1>
-      <p className="mt-4 max-w-[60ch] text-muted">O endereço pode ter mudado. Busque um produto ou veja as categorias.</p>
+    <div className="wrap pt-12 md:pt-20">
+      <h1 className="display t-hero max-w-[10ch]">Perdeu o caminho?</h1>
+      <p className="mt-6 max-w-[60ch] text-cinza">Essa página não existe ou o endereço mudou. Busque um produto ou veja as categorias.</p>
       <form onSubmit={go} role="search" className="mt-6 flex max-w-md gap-2">
         <label htmlFor="nf-q" className="sr-only">Buscar produtos</label>
         <input id="nf-q" type="search" className="field" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar" />
-        <button className="btn btn-primary" type="submit">Buscar</button>
+        <button className="btn btn-buy" type="submit">Buscar</button>
       </form>
-      <ul className="m-0 mt-8 flex list-none flex-wrap gap-x-8 gap-y-2 p-0">
-        {cats.map((c) => (
-          <li key={c.name}>
-            <Link className="font-display text-xl text-ink underline underline-offset-4" to={`/loja?categoria=${encodeURIComponent(c.name)}`}>{c.name}</Link>
+      <ul className="m-0 mt-10 flex list-none flex-wrap gap-2 p-0">
+        {GROUPS.slice(0, 6).map((g) => (
+          <li key={g.slug}>
+            <Link className="chip no-underline" to={`/loja?group=${g.slug}`}>{g.label} <span className="num text-xs opacity-80">{g.count}</span></Link>
           </li>
         ))}
       </ul>
