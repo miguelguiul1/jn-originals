@@ -114,6 +114,13 @@ export function useCatalog() {
   return state;
 }
 
+/** "Só resta o X": só quando o estoque por tamanho existe e sobra um único tamanho disponível. */
+export function lastSize(p: Pick<Product, "sizes" | "unavailable" | "inStock">): string | null {
+  if (!p.sizes || !p.unavailable.length || p.inStock === false) return null;
+  const left = p.sizes.filter((s) => !p.unavailable.includes(s));
+  return left.length === 1 ? left[0] : null;
+}
+
 export const imgUrl = (slug: string, n: number, w: number) => `/img/p/${slug}-${n}-${w}.webp`;
 export const installmentText = (p: { installment: number | null; installmentCount: number | null }, fmt: (v: number) => string) =>
   p.installment && p.installmentCount ? `${p.installmentCount}x de ${fmt(p.installment)}` : null;

@@ -139,23 +139,23 @@ export default function Catalog() {
         <details key={g} open={g === "group" || f[g].length > 0} className="border-b border-linha pb-2">
           <summary className="label flex min-h-11 cursor-pointer items-center">{FACET_LABEL[g]}</summary>
           <div className="flex max-h-64 flex-wrap gap-2 overflow-y-auto py-1">
-            {facets[g].length === 0 && <span className="text-xs text-cinza">Sem opções para esta busca.</span>}
+            {facets[g].length === 0 && <span className="text-xs text-suave">Sem opções para esta busca.</span>}
             {facets[g].map(([v, n]) => (
               <button key={v} type="button" aria-pressed={f[g].includes(v)} onClick={() => toggle(g, v)} className="chip">
                 {g === "group" ? groupLabel(v) : v} <span className="num text-xs opacity-80">{n}</span>
               </button>
             ))}
           </div>
-          {g === "tamanho" && <p className="m-0 mt-1 text-xs text-cinza">Só entram produtos com tamanhos listados. Para os demais, confirme pelo WhatsApp.</p>}
+          {g === "tamanho" && <p className="m-0 mt-1 text-xs text-suave">Só entram produtos com tamanhos listados. Para os demais, confirme pelo WhatsApp.</p>}
         </details>
       ))}
       <details open={f.min !== null || f.max !== null} className="border-b border-linha pb-3">
         <summary className="label flex min-h-11 cursor-pointer items-center">Preço</summary>
         <form onSubmit={onPrice} className="flex items-end gap-2" key={`${f.min}-${f.max}`}>
-          <label className="text-xs text-cinza">De (R$)
+          <label className="text-xs text-suave">De (R$)
             <input name="min" inputMode="decimal" defaultValue={f.min ?? ""} className="field mt-1" />
           </label>
-          <label className="text-xs text-cinza">Até (R$)
+          <label className="text-xs text-suave">Até (R$)
             <input name="max" inputMode="decimal" defaultValue={f.max ?? ""} className="field mt-1" />
           </label>
           <button type="submit" className="btn btn-second !px-3">Ok</button>
@@ -168,8 +168,8 @@ export default function Catalog() {
   return (
     <div className="wrap pt-8 md:pt-12">
       <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-2">
-        <h1 className="display t-hero">Loja</h1>
-        <p className="num m-0 pb-2 text-cinza" aria-live="polite">
+        <div className="flex flex-wrap items-end gap-x-5"><h1 className="display t-hero">Loja</h1><span className="marker pb-3 text-texto">pede no zap</span></div>
+        <p className="num m-0 pb-2 text-suave" aria-live="polite">
           {products ? `${result.length} ${result.length === 1 ? "produto" : "produtos"}` : "Carregando"}
         </p>
       </div>
@@ -182,7 +182,7 @@ export default function Catalog() {
       </nav>
 
       <div className="mt-6 grid gap-8 lg:grid-cols-[280px_1fr]">
-        <aside aria-label="Filtros" className={(panel ? "drawer fixed inset-0 z-40 overflow-y-auto bg-muro p-4 lg:static lg:z-auto lg:animate-none lg:overflow-visible" : "hidden lg:block") + " lg:self-start lg:bg-muro lg:p-4"}>
+        <aside aria-label="Filtros" className={(panel ? "drawer fixed inset-0 z-40 overflow-y-auto bg-superficie p-4 lg:static lg:z-auto lg:animate-none lg:overflow-visible" : "hidden lg:block") + " lg:self-start lg:rounded-3xl lg:border lg:border-linha lg:bg-superficie lg:p-5"}>
           <div className="mb-2 flex items-center justify-between lg:hidden">
             <h2 className="display text-4xl">Filtros</h2>
             <button type="button" className="label min-h-11 px-2 underline underline-offset-4" onClick={() => setPanel(false)}>Fechar</button>
@@ -196,11 +196,11 @@ export default function Catalog() {
         <section aria-label="Produtos" className="min-w-0">
           <div className="flex flex-wrap items-end gap-3">
             <form role="search" className="min-w-[12rem] flex-1" onSubmit={(e) => { e.preventDefault(); setOne("q", String(new FormData(e.currentTarget).get("q") ?? "").trim()); }} key={f.q}>
-              <label htmlFor="cq" className="label block text-cinza">Buscar na loja</label>
+              <label htmlFor="cq" className="label block text-suave">Buscar na loja</label>
               <input id="cq" name="q" type="search" defaultValue={f.q} placeholder="Nome, marca ou código" className="field mt-1" />
             </form>
             <div>
-              <label htmlFor="ord" className="label block text-cinza">Ordenar</label>
+              <label htmlFor="ord" className="label block text-suave">Ordenar</label>
               <select id="ord" value={ordem} onChange={(e) => setOne("ordem", e.target.value)} className="field mt-1 w-auto">
                 {Object.entries(ORDERS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
@@ -225,7 +225,7 @@ export default function Catalog() {
             </ul>
           )}
 
-          <p className="num mb-4 mt-4 text-sm text-cinza">
+          <p className="num mb-4 mt-4 text-sm text-suave">
             {products ? `Mostrando ${Math.min(shown, result.length)} de ${result.length}` : ""}
           </p>
 
@@ -238,9 +238,9 @@ export default function Catalog() {
             </div>
           )}
           {products && result.length === 0 && (
-            <div className="bg-muro p-6 md:p-10">
+            <div className="superficie rounded-3xl p-6 md:p-10">
               <p className="display m-0 text-4xl md:text-6xl">Nada por aqui.</p>
-              <p className="mt-4 text-cinza">Nenhum produto com esses filtros. Tire um filtro ou mude a busca.</p>
+              <p className="mt-4 text-suave">Nenhum produto com esses filtros. Tire um filtro ou mude a busca.</p>
               <button className="btn btn-buy mt-6" onClick={() => setSp(new URLSearchParams(), { replace: true })}>Limpar filtros</button>
             </div>
           )}

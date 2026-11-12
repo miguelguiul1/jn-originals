@@ -13,8 +13,9 @@ export default function NotFound() {
   };
   return (
     <div className="wrap pt-12 md:pt-20">
-      <h1 className="display t-hero max-w-[10ch]">Perdeu o caminho?</h1>
-      <p className="mt-6 max-w-[60ch] text-cinza">Essa página não existe ou o endereço mudou. Busque um produto ou veja as categorias.</p>
+      <span className="marker text-texto">erro 404</span>
+      <h1 className="display t-hero mt-2 max-w-[10ch]">Perdeu o caminho?</h1>
+      <p className="mt-6 max-w-[60ch] text-suave">Essa página não existe ou o endereço mudou. Busque um produto ou veja as categorias.</p>
       <form onSubmit={go} role="search" className="mt-6 flex max-w-md gap-2">
         <label htmlFor="nf-q" className="sr-only">Buscar produtos</label>
         <input id="nf-q" type="search" className="field" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Buscar" />

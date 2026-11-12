@@ -65,7 +65,7 @@ export function Intro() {
     <div
       role="presentation"
       onClick={skip}
-      className="fixed inset-0 z-[100] grid place-items-center bg-asfalto text-giz"
+      className="fixed inset-0 z-[100] grid place-items-center bg-amarelo text-tinta"
       style={{
         animation: "intro-up 400ms var(--ease-out) 1250ms both",
         opacity: leaving ? 0 : 1,
@@ -74,8 +74,8 @@ export function Intro() {
     >
       {/* Duas camadas do mesmo logo: letras (esquerda para direita) e escorridos (de cima para baixo). */}
       <div aria-hidden="true" className="relative w-[min(60vw,36vh,22rem)]">
-        <Logo label={false} className="text-giz" style={{ animation: "spray-x 700ms var(--ease-out) both" }} />
-        <Logo label={false} className="absolute inset-0 text-giz" style={{ animation: "spray-y 400ms var(--ease-out) 700ms both" }} />
+        <Logo label={false} className="text-tinta" style={{ animation: "spray-x 700ms var(--ease-out) both" }} />
+        <Logo label={false} className="absolute inset-0 text-tinta" style={{ animation: "spray-y 400ms var(--ease-out) 700ms both" }} />
       </div>
       <button
         ref={skipRef}
@@ -84,7 +84,7 @@ export function Intro() {
           e.stopPropagation();
           skip();
         }}
-        className="label absolute bottom-4 right-4 min-h-11 px-3 text-giz underline underline-offset-4"
+        className="label absolute bottom-4 right-4 min-h-11 px-3 text-tinta underline underline-offset-4"
       >
         Pular
       </button>

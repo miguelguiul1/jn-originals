@@ -11,3 +11,5 @@
 - Conferência de fidelidade: 10 produtos sorteados (semente 20261112) comparados entre a listagem, a página do produto e o `catalog.json`. Nome, preço, código e parcela bateram em 10 de 10. A comparação usou páginas já coletadas para não passar do teto de 400 requisições.
 - Páginas usadas na origem: cerca de 395 de 400 (sondagem, 141 listagens, 221 produtos, 2 políticas e uma rodada abortada).
 - Início com pré-render estático da rota `/` para LCP; as demais rotas são SPA (`app.html`).
+- Rumo do projeto: é um rascunho para apresentar aos donos da JN. Prioridade para a primeira impressão: vitrines com curadoria manual de fotos (`data/curadoria.json`), sem inventar produto.
+- Marca "JN Originals" (linha própria de calça jeans, 9 itens) reconhecida pelo nome do produto.

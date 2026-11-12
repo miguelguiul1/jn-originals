@@ -1,4 +1,34 @@
-# JN Originals: direção visual v2 (loja de rua, Paraisópolis)
+# JN Originals: direção visual v3 (sobrepõe a v2 onde conflitar)
+
+Feedback do Miguel sobre a v2: "muito preto, muito quadrado, robótico". A v3 mantém a identidade de rua (logo, fotos,
+amarelo, endereço) e muda o clima: claro por padrão, formas orgânicas, textura de muro, marcas que a loja vende.
+
+**Temas:** claro (padrão) e escuro, seguindo `prefers-color-scheme` + botão "Claro/Escuro" no cabeçalho (localStorage com try/catch).
+Script inline mínimo no `<head>` define `data-theme` antes da pintura (sem flash); adicione o hash sha256 dele ao CSP.
+| token | claro | escuro | uso |
+|---|---|---|---|
+| `--fundo` | `#EFECE6` (concreto claro) | `#1C1C1A` (grafite) | página |
+| `--superficie` | `#F8F7F3` | `#262624` | cards, painéis, gaveta |
+| `--moldura` | `#FFFFFF` | `#F3F1EC` | moldura das fotos de produto |
+| `--texto` | `#161615` | `#F3F1EC` | texto principal (AA ≥ 12:1 nos dois) |
+| `--suave` | `#5E5B54` | `#B2AFA7` | texto secundário (≥ 6:1) |
+| `--linha` | `#D9D5CC` | `#3A3936` | divisores |
+| `--amarelo` | `#FFD21F` | `#FFD21F` | destaque único; SEMPRE como fundo com texto `#161615` (nunca texto amarelo no claro) |
+Textura de muro: ruído SVG inline (`feTurbulence`, data URI < 1 KB) com opacidade 4–6% sobre `--fundo` e mais forte (10–12%) nos blocos "muro" (seção A loja, rodapé). Não é gradiente nem enfeite: é a parede da loja.
+
+**Formas (menos robótico):** raio 16 px em fotos, cards e blocos; botões e chips em pílula; hero dentro de um container com margem e raio 24 px (não colado na borda). Etiquetas de categoria e selos como adesivo (rotação −2° a 3°, alternando). Logo-tag sobre o hero com rotação −4°. Grades com ritmo: cards com alturas e larguras variadas, nunca uma parede uniforme.
+
+**Escorrido como divisor:** SVG de borda com gotas (derivado do traço do logo) na base da faixa amarela e no topo do rodapé. No máximo 2 por página.
+
+**Tipografia:** Archivo condensada 800 nos títulos (manter) e Hanken no texto. Acrescentar `@fontsource/permanent-marker` (só latin, 1 peso) APENAS como acento manuscrito de 1–3 palavras por seção (ex.: rótulo "chegou agora" rabiscado acima do título, "a loja" sobre o endereço), nunca em parágrafo nem botão.
+
+**Marcas que a loja vende:** faixa na Início entre "Chegou agora" e "Por categoria": Nike (251), Puma (203), Lacoste (177), Tommy Hilfiger (166), Jordan (57), Adidas (37), New Balance (29), em tipografia display grande (sem logos de terceiros), cada uma em pílula/adesivo com contagem real, linkando para `/loja?marca=`. No mobile, rolagem horizontal com scroll-snap.
+
+**Ajustes:** o menu do mobile não pode cortar palavra na borda (use rolagem com fade de máscara ou menu em gaveta). Início continua com no máximo 6 seções (a faixa de marcas substitui a seção Motorsport, que vai para a página A loja, ou junte Motorsport ao mosaico como bloco).
+
+---
+
+# v2 (base): loja de rua, Paraisópolis
 
 A v1 (bege, "slim") foi rejeitada pelo Miguel: genérica, sem personalidade. A v2 parte do que a marca já é:
 logo de pichação com escorrido, loja física em Paraisópolis (Rua Pasquale Gallupi, 1280), 198 mil seguidores no

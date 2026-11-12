@@ -4,7 +4,9 @@ import App from "./App";
 import "./index.css";
 import { loadCatalog } from "./lib/catalog";
 
-if (/^\/(loja|produto)/.test(location.pathname)) loadCatalog().catch(() => {});
+if (/^\/(loja|produto)/.test(location.pathname)) {
+  loadCatalog().catch(() => {});
+}
 
 const root = document.getElementById("root")!;
 const app = (

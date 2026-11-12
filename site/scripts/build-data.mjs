@@ -77,13 +77,18 @@ const rank = (a, b) =>
     Number(b.id) - Number(a.id) ||
     a.slug.localeCompare(b.slug);
 const sorted = [...pool0].sort(rank);
-const ranked = sorted.slice(0, 5);
+// Curadoria manual (data/curadoria.json): ordem dos destaques e capa de cada bloco do mosaico. Slugs ausentes ou sem foto são ignorados.
+const cur = existsSync(resolve(data, "curadoria.json")) ? read("curadoria.json") : { featured: [], groupCover: {} };
+const bySlug = new Map(pool0.map((p) => [p.slug, p]));
+const picked = (cur.featured || []).map((x) => bySlug.get(x)).filter(Boolean);
+const ranked = [...picked, ...sorted.filter((p) => !picked.includes(p))].slice(0, 5);
 // Mosaico: contagem real por grupo e o produto mais recente (maior id) com foto, preferindo estoque.
 const gcount = new Map();
 for (const p of catalog) gcount.set(groupOf(p), (gcount.get(groupOf(p)) || 0) + 1);
 const byNew = [...pool0].sort((a, b) => Number(b.inStock === true) - Number(a.inStock === true) || Number(b.id) - Number(a.id));
 const mosaic = GROUPS.map((g) => {
-  const lead = byNew.find((p) => groupOf(p) === g.label);
+  const cover = bySlug.get(cur.groupCover?.[g.slug]);
+  const lead = cover ?? byNew.find((p) => groupOf(p) === g.label);
   return { slug: g.slug, label: g.label, count: gcount.get(g.label) || 0, product: lead ? pack(lead) : null };
 });
 const groups = [...gcount].map(([label, count]) => ({ slug: GROUPS.find((g) => g.label === label)?.slug ?? slugify(label), label, count }));
@@ -91,6 +96,10 @@ const counts = new Map();
 for (const p of catalog) for (const c of p.categories?.length ? p.categories : [p.category]) counts.set(c, (counts.get(c) || 0) + 1);
 const categories = [...counts].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
 out("src/data/featured.json", JSON.stringify({ total: catalog.length, products: ranked.map(pack), categories, mosaic }));
+// Marcas: contagem real por marca (campo `brand`), maior primeiro. Sem marca fica de fora.
+const bc = new Map();
+for (const p of catalog) if (p.brand) bc.set(p.brand, (bc.get(p.brand) || 0) + 1);
+out("src/data/brands.json", JSON.stringify([...bc].map(([name, count]) => ({ name, count })).sort((a, b) => b.count - a.count || a.name.localeCompare(b.name))));
 out("src/data/groups.json", JSON.stringify(groups.sort((a, b) => b.count - a.count)));
 out("src/data/store.json", JSON.stringify(store, null, 2));
 

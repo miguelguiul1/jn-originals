@@ -41,13 +41,13 @@ export function CartDrawer() {
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50">
-      <div className="scrim absolute inset-0 bg-asfalto/70" onClick={() => setOpen(false)} aria-hidden="true" />
+      <div className="scrim absolute inset-0 bg-fundo/70" onClick={() => setOpen(false)} aria-hidden="true" />
       <div
         ref={ref}
         role="dialog"
         aria-modal="true"
         aria-labelledby="cart-title"
-        className="drawer absolute right-0 top-0 flex h-full w-full max-w-[420px] flex-col border-l border-linha bg-muro"
+        className="drawer absolute right-0 top-0 flex h-full w-full max-w-[420px] flex-col border-l border-linha bg-superficie"
       >
         <div className="flex items-center justify-between border-b border-linha p-4">
           <h2 id="cart-title" className="display text-4xl">Sacola</h2>
@@ -57,9 +57,9 @@ export function CartDrawer() {
           {lines.length ? (
             <CartLines compact />
           ) : (
-            <p className="m-0 text-cinza">
+            <p className="m-0 text-suave">
               Sua sacola está vazia.{" "}
-              <Link to="/loja" className="link text-giz" onClick={() => setOpen(false)}>Ver a loja</Link>
+              <Link to="/loja" className="link text-texto" onClick={() => setOpen(false)}>Ver a loja</Link>
             </p>
           )}
         </div>

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type KeyboardEvent } from "react";
 import { Link, useParams } from "react-router-dom";
 import { SITE_URL } from "../config";
-import { imgUrl, installmentText, useCatalog, type Product } from "../lib/catalog";
+import { imgUrl, installmentText, lastSize, useCatalog, type Product } from "../lib/catalog";
 import { useCart } from "../lib/cart";
 import { ADDRESS_LINE, MAPS_URL, STORE, money, moneyPlain, waUrl } from "../lib/store";
 import { groupSlug } from "../lib/groups";
@@ -69,7 +69,7 @@ function Gallery({ p }: { p: Product }) {
                 aria-label={`Foto ${k + 1} de ${n}`}
                 aria-current={k === i}
                 onClick={() => setI(k)}
-                className={"frame block h-16 w-16 shrink-0 border-2 " + (k === i ? "!border-amarelo" : "border-transparent")}
+                className={"frame block h-16 w-16 shrink-0 !rounded-xl border-[3px] " + (k === i ? "!border-texto" : "border-transparent")}
               >
                 <Photo p={p} index={k} sizes="56px" className="!inset-[6%] !h-[88%] !w-[88%]" />
               </button>
@@ -84,7 +84,7 @@ function Gallery({ p }: { p: Product }) {
         {n > 1 && (
           <div className="label mt-2 flex items-center justify-between">
             <button type="button" className="min-h-11 px-2 underline underline-offset-4" onClick={() => go(-1)}>Anterior</button>
-            <span className="num text-cinza" aria-live="polite">{i + 1} de {n}</span>
+            <span className="num text-suave" aria-live="polite">{i + 1} de {n}</span>
             <button type="button" className="min-h-11 px-2 underline underline-offset-4" onClick={() => go(1)}>Próxima</button>
           </div>
         )}
@@ -123,6 +123,7 @@ export default function ProductPage() {
   const inst = installmentText(p, (v) => `R$ ${moneyPlain(v)}`);
   const hasSizes = !!p.sizes;
   const soldOut = p.inStock === false;
+  const last = soldOut ? null : lastSize(p);
   const promo = !!p.oldPrice && p.oldPrice > p.price;
   const wa = waUrl(waMessage(p, size));
   const addToCart = () => {
@@ -133,20 +134,21 @@ export default function ProductPage() {
   return (
     <div className="wrap pt-6">
       <JsonLd p={p} />
-      <nav aria-label="Trilha" className="label text-cinza">
+      <nav aria-label="Trilha" className="label text-suave">
         <Link className="link" to="/loja">Loja</Link> / <Link className="link" to={`/loja?group=${groupSlug(p.group)}`}>{p.group}</Link>
       </nav>
       <div className="mt-4 grid items-start gap-8 lg:grid-cols-[1.3fr_1fr] lg:gap-12">
         <Gallery p={p} />
         <div className="lg:sticky lg:top-32">
-          {p.brand && <div className="label text-cinza">{p.brand}</div>}
-          <h1 className="display mt-2 text-[clamp(2.25rem,1.6rem+3vw,3.75rem)]">{p.name}</h1>
+          {p.brand && <div className="label text-suave">{p.brand}</div>}
+          <h1 className="display mt-2 text-[clamp(2.25rem,1.6rem+3vw,3.75rem)] [text-wrap:balance]">{p.name}</h1>
           <div className="mt-5 flex flex-wrap items-baseline gap-x-3">
-            <span className={"display-m num text-5xl " + (promo ? "text-amarelo" : "text-giz")}>{money(p.price)}</span>
-            {promo && <s className="num text-lg text-cinza">{money(p.oldPrice!)}</s>}
+            <span className="display-m num text-5xl">{money(p.price)}</span>{promo && <span className="sticker label self-center" style={{ ["--giro" as string]: "3deg" }}>Promoção</span>}
+            {promo && <s className="num text-lg text-suave">{money(p.oldPrice!)}</s>}
           </div>
-          {inst && <div className="num mt-1 text-cinza">{inst}</div>}
-          {p.code && <div className="num mt-1 text-xs text-cinza">Código {p.code}</div>}
+          {last && <p className="sticker label m-0 mt-3" style={{ ["--giro" as string]: "-2deg" }}>Só resta o {last}</p>}
+          {inst && <div className="num mt-1 text-suave">{inst}</div>}
+          {p.code && <div className="num mt-1 text-xs text-suave">Código {p.code}</div>}
 
           <div className="mt-6">
             {hasSizes ? (
@@ -166,14 +168,14 @@ export default function ProductPage() {
                         aria-label={off ? `Tamanho ${s}, indisponível` : `Tamanho ${s}`}
                         disabled={soldOut}
                         onClick={() => { if (!off) { setSize(s); setWarn(false); } }}
-                        className={"num min-h-12 min-w-12 border-2 px-3 font-semibold " + (off ? "cursor-not-allowed border-linha text-cinza line-through" : on ? "border-giz bg-giz text-asfalto" : "border-campo hover:border-giz")}
+                        className={"num min-h-12 min-w-12 rounded-2xl border-2 px-3 font-semibold " + (off ? "cursor-not-allowed border-linha text-suave line-through" : on ? "border-texto bg-texto text-fundo" : "border-campo hover:border-texto")}
                       >
                         {s}
                       </button>
                     );
                   })}
                 </div>
-                {warn && <p id="size-warn" role="alert" className="m-0 mt-2 text-sm font-semibold text-amarelo">Escolha um tamanho para continuar.</p>}
+                {warn && <p id="size-warn" role="alert" className="sticker m-0 mt-3 text-sm font-semibold">Escolha um tamanho para continuar.</p>}
               </fieldset>
             ) : (
               <p className="m-0 text-sm"><b>Tamanhos:</b> confirme pelo WhatsApp</p>
@@ -193,12 +195,16 @@ export default function ProductPage() {
               {soldOut ? "Perguntar sobre reposição" : "Pedir pelo WhatsApp"}
             </a>
           </div>
-          {!hasSizes && !soldOut && <p className="mt-3 text-xs text-cinza">A mensagem pede o tamanho. A equipe responde com o que há em estoque.</p>}
+          <ul className="m-0 mt-4 list-none space-y-1 p-0 text-sm text-suave">
+            <li>Pix{p.installmentCount ? ` · até ${p.installmentCount}x no cartão` : ""} · pedido pelo WhatsApp</li>
+            <li>Motoboy em SP para pagamento via Pix · envio para todo o Brasil</li>
+          </ul>
+          {!hasSizes && !soldOut && <p className="mt-3 text-xs text-suave">A mensagem pede o tamanho. A equipe responde com o que há em estoque.</p>}
 
-          <div className="mt-8 border border-linha bg-muro p-4">
-            <h2 className="label text-cinza">Retire na loja ou receba por motoboy ou Correios</h2>
+          <div className="superficie mt-8 rounded-3xl p-5">
+            <h2 className="label text-suave">Retire na loja ou receba por motoboy ou Correios</h2>
             <p className="m-0 mt-2 text-sm">{ADDRESS_LINE}</p>
-            <p className="m-0 text-sm text-cinza">{STORE.hours.text}</p>
+            <p className="m-0 text-sm text-suave">{STORE.hours.text}</p>
             <a className="link mt-1 inline-block py-1 text-sm" href={MAPS_URL} rel="noopener noreferrer" target="_blank">Como chegar</a>
           </div>
         </div>
@@ -207,9 +213,9 @@ export default function ProductPage() {
       <section className="mt-16" aria-labelledby="det">
         <h2 id="det" className="display text-4xl">Detalhes</h2>
         <dl className="m-0 mt-4 grid max-w-xl grid-cols-[8rem_1fr] gap-y-2 border-t border-linha pt-4 text-sm">
-          {p.brand && <><dt className="text-cinza">Marca</dt><dd className="m-0">{p.brand}</dd></>}
-          <dt className="text-cinza">Categoria</dt><dd className="m-0">{p.group}</dd>
-          {p.code && <><dt className="text-cinza">Código</dt><dd className="num m-0">{p.code}</dd></>}
+          {p.brand && <><dt className="text-suave">Marca</dt><dd className="m-0">{p.brand}</dd></>}
+          <dt className="text-suave">Categoria</dt><dd className="m-0">{p.group}</dd>
+          {p.code && <><dt className="text-suave">Código</dt><dd className="num m-0">{p.code}</dd></>}
         </dl>
         {p.description && <p className="mt-4 max-w-[60ch] whitespace-pre-line">{p.description}</p>}
       </section>

@@ -29,14 +29,14 @@ export default function HowToBuy() {
   usePageTitle("Como comprar");
   return (
     <div className="wrap pt-8 md:pt-12">
-      <h1 className="display t-hero">Como comprar</h1>
+      <div className="flex flex-wrap items-end gap-x-5"><h1 className="display t-hero">Como comprar</h1><span className="marker pb-3 text-texto">é rápido</span></div>
       <ol className="m-0 mt-10 grid list-none gap-x-12 gap-y-10 p-0 md:grid-cols-2">
         {steps.map(([t, d], i) => (
-          <li key={t} className="grid grid-cols-[auto_1fr] items-start gap-x-5 border-t border-linha pt-4">
-            <span className="display text-[clamp(5rem,3rem+8vw,9rem)] text-amarelo" aria-hidden="true">{i + 1}</span>
+          <li key={t} className="superficie grid grid-cols-[auto_1fr] items-start gap-x-5 rounded-3xl p-5">
+            <span className="sticker sticker-big display grid size-[clamp(5rem,3rem+8vw,8rem)] place-items-center !rounded-[1.4rem] text-[clamp(3.5rem,2rem+6vw,6rem)]" style={{ ["--giro" as string]: i % 2 ? "3deg" : "-3deg" }} aria-hidden="true">{i + 1}</span>
             <div className="pt-2">
               <h2 className="display text-3xl">{t}</h2>
-              <p className="m-0 mt-2 text-cinza">{d}</p>
+              <p className="m-0 mt-2 text-suave">{d}</p>
             </div>
           </li>
         ))}

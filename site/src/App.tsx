@@ -29,7 +29,7 @@ export default function App({ Router = BrowserRouter }: { Router?: (p: { childre
         <ScrollToTop />
         <Intro />
         <div id="shell">
-          <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:bg-amarelo focus:p-3 focus:text-asfalto">Pular para o conteúdo</a>
+          <a href="#conteudo" className="sr-only focus:not-sr-only focus:absolute focus:left-2 focus:top-2 focus:z-50 focus:bg-amarelo focus:p-3 focus:text-tinta">Pular para o conteúdo</a>
           <Header />
           <main id="conteudo" tabIndex={-1} className="min-h-screen outline-none">
             <Suspense fallback={<div className="wrap py-8" style={{ minHeight: "100vh" }}><div className="skeleton h-64" /></div>}>

@@ -12,10 +12,10 @@ export function CartLines({ compact = false }: { compact?: boolean }) {
             {l.img ? <img src={l.img} width={72} height={96} alt="" loading="lazy" /> : null}
           </div>
           <div className="min-w-0 flex-1">
-            <Link to={`/produto/${l.slug}`} onClick={() => setOpen(false)} className="line-clamp-2 text-sm font-semibold text-giz no-underline hover:underline">
+            <Link to={`/produto/${l.slug}`} onClick={() => setOpen(false)} className="line-clamp-2 text-sm font-semibold text-texto no-underline hover:underline">
               {l.name}
             </Link>
-            <div className="text-xs text-cinza">{l.size ? `Tamanho ${l.size}` : "Tamanho: a confirmar pelo WhatsApp"}</div>
+            <div className="text-xs text-suave">{l.size ? `Tamanho ${l.size}` : "Tamanho: a confirmar pelo WhatsApp"}</div>
             <div className="mt-2 flex flex-wrap items-center gap-3">
               <div className="inline-flex items-center border border-campo">
                 <button type="button" aria-label={`Diminuir quantidade de ${l.name}`} className="h-11 w-11" onClick={() => setQty(l.slug, l.size, l.qty - 1)}>-</button>

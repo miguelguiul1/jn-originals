@@ -12,11 +12,11 @@ BRANDS = ['Nike', 'Jordan', 'Adidas', 'Puma', 'Tommy Hilfiger', 'Lacoste', 'Calv
           'Stussy', 'Supreme', 'Off-White', 'Bape', 'Kith', 'Fear of God', 'Essentials', 'Hollister', 'Abercrombie', 'Gap', 'Mitchell & Ness',
           'Mitchell Ness', 'New Era', 'Salomon', 'On Running', 'Hoka', 'Yeezy', 'Lacoste', 'Tommy Jeans', 'Calvin Klein Jeans', 'Ferrari', 'BMW',
           'Mercedes', 'Red Bull', 'Paco Rabanne', 'Carolina Herrera', 'Jean Paul Gaultier', 'Azzaro', 'Dolce & Gabbana', 'Givenchy', 'Valentino',
-          'Montblanc', 'Lattafa', 'Aeropostale', 'Zara', 'Hansez', 'Tommy', 'Ferragamo', 'Hugo', 'Kenzo', 'Burberry', 'Fendi', 'Nautica', 'Timberland', 'Dc']
+          'Montblanc', 'Lattafa', 'Aeropostale', 'Zara', 'Hansez', 'Tommy', 'JN Originals', 'Jnoriginals', 'JN', 'Ferragamo', 'Hugo', 'Kenzo', 'Burberry', 'Fendi', 'Nautica', 'Timberland', 'Dc']
 # Marcas que aparecem como licenças (ex.: "PUMA BMW") não substituem a fabricante: a primeira marca do nome vence.
 def norm(s): return unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode().lower()
 BR = sorted({b: None for b in BRANDS}, key=len, reverse=True)
-CANON = {'levis': "Levi's", 'polo ralph lauren': 'Ralph Lauren', 'mitchell ness': 'Mitchell & Ness', 'dc': 'DC Shoes', 'boss': 'Hugo Boss', 'tommy jeans': 'Tommy Hilfiger', 'calvin klein jeans': 'Calvin Klein', 'nke': 'Nike', 'tommy': 'Tommy Hilfiger'}
+CANON = {'levis': "Levi's", 'polo ralph lauren': 'Ralph Lauren', 'mitchell ness': 'Mitchell & Ness', 'dc': 'DC Shoes', 'boss': 'Hugo Boss', 'tommy jeans': 'Tommy Hilfiger', 'calvin klein jeans': 'Calvin Klein', 'nke': 'Nike', 'tommy': 'Tommy Hilfiger', 'jnoriginals': 'JN Originals', 'jn': 'JN Originals'}
 def brand_of(name):
     n = ' ' + re.sub(r'[^a-z0-9&\' ]', ' ', norm(name)) + ' '
     best = None
